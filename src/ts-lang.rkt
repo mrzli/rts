@@ -20,10 +20,10 @@
 )
 
 (begin-for-syntax
-  (define (process-id-or-list-stx elem)
-    (syntax-parse elem
-      [(var id) (datum->syntax #'id (process-id #'id))]
-      [(list id ...) (datum->syntax #'(id ...) (process-list #'(id ...)))]
+  (define (process-id-or-list elem)
+    (match elem
+      [(var id) (process-id id)]
+      [(list id ...) (process-list id)]
     )
   )
 
@@ -43,7 +43,7 @@
         #'(list ''import-declaration (list ''import-clause #f (quote name) #f) module-specifier)]
       [((~literal import) module-specifier:str (named:expr ...))
         #:with (processed ...)
-        (map process-id-or-list-stx (syntax->datum #'(named ...)))
+        (datum->syntax #'(named ...) (map process-id-or-list (syntax->datum #'(named ...))))
         #'(list ''import-declaration (list ''import-clause #f #f (list processed ...)) module-specifier)]
     )
   )
