@@ -1,0 +1,9 @@
+- source-file
+  - <statements><*>: root-statement (union)
+- root-statement
+  - export-assignment
+    - export = <exps>
+  - export-declaration
+    - export type<?> 
+  - import-declaration
+  - base-statement
